@@ -13,10 +13,6 @@ locals {
 resource "aws_lambda_function" "lambda" {
   count      = var.ignore_external_function_updates ? 0 : 1
   depends_on = [aws_cloudwatch_log_group.lambda]
-<<<<<<< HEAD
-  lifecycle {
-    replace_triggered_by = [aws_iam_role.lambda]
-  }
   architectures                  = var.architectures
   description                    = var.description
   filename                       = var.filename
@@ -37,31 +33,6 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash               = var.source_code_hash
   tags                           = var.tags
   timeout                        = local.timeout
-=======
-
-  architectures                      = var.architectures
-  description                        = var.description
-  filename                           = var.filename
-  function_name                      = var.function_name
-  handler                            = local.handler
-  image_uri                          = var.image_uri
-  kms_key_arn                        = var.kms_key_arn
-  layers                             = var.layers
-  memory_size                        = var.memory_size
-  package_type                       = var.package_type
-  publish                            = local.publish
-  replace_security_groups_on_destroy = var.replace_security_groups_on_destroy
-  replacement_security_group_ids     = var.replacement_security_group_ids
-  reserved_concurrent_executions     = var.reserved_concurrent_executions
-  role                               = aws_iam_role.lambda.arn
-  runtime                            = local.runtime
-  s3_bucket                          = var.s3_bucket
-  s3_key                             = var.s3_key
-  s3_object_version                  = var.s3_object_version
-  source_code_hash                   = var.source_code_hash
-  tags                               = var.tags
-  timeout                            = local.timeout
->>>>>>> upstream/main
 
   ephemeral_storage {
     size = var.ephemeral_storage_size
