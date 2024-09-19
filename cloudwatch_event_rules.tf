@@ -6,6 +6,10 @@ resource "aws_lambda_permission" "cloudwatch_events" {
   principal     = "events.amazonaws.com"
   qualifier     = contains(keys(each.value), "cloudwatch_event_target_arn") ? trimprefix(each.value["cloudwatch_event_target_arn"], "${local.function_arn}:") : null
   source_arn    = aws_cloudwatch_event_rule.lambda[each.key].arn
+
+  lifecycle {
+    replace_triggered_by = [aws_lambda_function.lambda, aws_cloudwatch_event_rule.lambda[each.key]]
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "lambda" {
